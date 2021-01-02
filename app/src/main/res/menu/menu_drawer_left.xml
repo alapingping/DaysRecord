@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/option_home"
+        android:title="@string/option_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/option_event"
+        android:title="@string/option_event"
+        android:icon="@drawable/ic_baseline_event_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/option_message"
+        android:title="@string/option_message"
+        android:icon="@drawable/ic_baseline_message_24"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/option_setting"
+    android:title="@string/option_setting"
+        android:icon="@drawable/ic_baseline_settings_24"
+    app:showAsAction="ifRoom"/>
+
+
+</menu>
