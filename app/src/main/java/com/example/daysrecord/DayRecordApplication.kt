@@ -16,5 +16,4 @@ class DayRecordApplication: Application() {
         context = applicationContext
     }
 
-
 }

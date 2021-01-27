@@ -12,5 +12,5 @@
     <!--home fragment-->
     <string name="male_name"> </string>
     <string name="female_name"> </string>
-
+    <string name="days">%1$d天</string>
 </resources>

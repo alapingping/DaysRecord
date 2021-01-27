@@ -31,6 +31,12 @@ class EventsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.events_fragment, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        // TODO: Use the ViewModel
         initRecords()
 
         viewModel.records.observe(requireActivity()) {records ->
@@ -52,13 +58,6 @@ class EventsFragment : Fragment() {
             // 启动添加Activity
             RecordAddActivity.start(requireContext())
         }
-
-        return inflater.inflate(R.layout.events_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
     }
 
     fun initRecords() {

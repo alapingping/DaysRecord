@@ -1,12 +1,17 @@
 package com.example.daysrecord
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import com.example.daysrecord.ui.events.EventsFragment
+import com.example.daysrecord.ui.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -17,7 +22,6 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        drawerLayout.openDrawer(GravityCompat.START)
         val drawertoggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
             R.string.app_name,
             R.string.app_name
@@ -28,28 +32,36 @@ class MainActivity : BaseActivity() {
 
         toolbar.inflateMenu(R.menu.menu)
         toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24)
+        toolbar.setNavigationOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        navigation_view.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.option_home -> {
+                    "home".showToast()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, HomeFragment.newInstance()).commit()
+                }
+                R.id.option_event -> {
+                    "event".showToast()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, EventsFragment.newInstance()).commit()
+                }
+                R.id.option_message -> {
+                    "message".showToast()
+                }
+                R.id.option_setting -> {
+                    "setting".showToast()
+                }
+            }
+            drawerLayout.closeDrawers()
+            true
+        }
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            android.R.id.home -> {
-                drawerLayout.openDrawer(GravityCompat.START)
-                return true
-            }
-            R.id.option_home -> {
-                "home".showToast()
-            }
-            R.id.option_event -> {
-                "event".showToast()
-            }
-            R.id.option_message -> {
-                "message".showToast()
-            }
-            R.id.option_setting -> {
-                "setting".showToast()
-            }
-        }
-//        drawerLayout.closeDrawers()
         return super.onOptionsItemSelected(item)
     }
 
