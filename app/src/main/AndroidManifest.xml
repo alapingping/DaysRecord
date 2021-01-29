@@ -14,10 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.addrecord.RecordAddActivity" />
         <activity
-            android:name=".ui.detail.RecordDetailActivity"
-            android:theme="@style/RecordActivityTheme" />
+            android:name=".ui.events.RecordDetailActivity"
+            />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

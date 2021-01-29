@@ -30,7 +30,6 @@ class MainActivity : BaseActivity() {
 
         setSupportActionBar(toolbar)
 
-        toolbar.inflateMenu(R.menu.menu)
         toolbar.setNavigationIcon(R.drawable.ic_baseline_menu_24)
         toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
@@ -39,12 +38,10 @@ class MainActivity : BaseActivity() {
         navigation_view.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.option_home -> {
-                    "home".showToast()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, HomeFragment.newInstance()).commit()
                 }
                 R.id.option_event -> {
-                    "event".showToast()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, EventsFragment.newInstance()).commit()
                 }

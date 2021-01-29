@@ -9,9 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.daysrecord.R
+import com.example.daysrecord.Utils
 import com.example.daysrecord.database.entity.Record
-import com.example.daysrecord.ui.addrecord.RecordAddActivity
 import kotlinx.android.synthetic.main.events_fragment.*
 
 class EventsFragment : Fragment() {
@@ -31,40 +32,48 @@ class EventsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.events_fragment, container, false)
+        val view:View? = inflater.inflate(R.layout.events_fragment, container, false)
+
+
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
         initRecords()
 
         viewModel.records.observe(requireActivity()) {records ->
             adapter.notifyDataSetChanged()
         }
 
-        val layoutManager = GridLayoutManager(context, 1)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recycler.layoutManager = layoutManager
-        adapter = RecordAdapter(requireContext(), records)
+        adapter = RecordAdapter(requireActivity(), records)
         recycler.adapter = adapter
         swipeRefresh.setOnRefreshListener {
             // 更新数据
 //            initRecords()
 //            adapter.notifyDataSetChanged()
-            Toast.makeText(requireContext(), "refresh", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "刷新数据", Toast.LENGTH_LONG).show()
             swipeRefresh.isRefreshing = false
         }
         floatButton.setOnClickListener {
-            // 启动添加Activity
-            RecordAddActivity.start(requireContext())
+            // 新建Record
+            RecordDetailActivity.start(requireContext(), Record("", "", Utils.getDefaultTime()))
         }
+
     }
 
     fun initRecords() {
-
         records.run {
-            for (i in 1..7) {
-                add(Record("第${i}天", "无事"))
+            for (i in 1..2) {
+                add(Record("第${i}天", "无事", "2020-01-28 20:30"))
+            }
+            for (i in 3..4) {
+                add(Record("第${i}天", "无事", "2021-01-18 20:30"))
+            }
+            for (i in 5..6) {
+                add(Record("第${i}天", "无事", "2021-01-28 20:30"))
             }
         }
     }
