@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import com.example.daysrecord.logic.repository.Repository
 import com.example.daysrecord.ui.events.EventsFragment
 import com.example.daysrecord.ui.home.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*

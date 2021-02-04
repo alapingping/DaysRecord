@@ -1,21 +1,19 @@
 package com.example.daysrecord.ui.events
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.daysrecord.database.entity.Record
 import com.example.daysrecord.logic.repository.Repository
+import kotlinx.coroutines.launch
 
 class EventsViewModel : ViewModel() {
 
-    private val recordsLiveData = MutableLiveData<List<Record>>()
+    private var recordsLiveData = MutableLiveData<List<Record>>()
 
-    val records: LiveData<List<Record>> = Transformations.switchMap(recordsLiveData) {
-        list -> Repository.getAllRecords()
+    var records: LiveData<List<Record>> = Transformations.switchMap(recordsLiveData) {
+        Repository.getAllRecords()
     }
 
-    fun getAllRecords() {
+    fun getAllRecords()  = viewModelScope.launch{
         recordsLiveData.value = recordsLiveData.value
     }
 

@@ -1,5 +1,6 @@
 package com.example.daysrecord.ui.events
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,13 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.daysrecord.R
 import com.example.daysrecord.Utils
 import com.example.daysrecord.database.entity.Record
+import com.example.daysrecord.logic.repository.Repository
 import kotlinx.android.synthetic.main.events_fragment.*
+import kotlinx.coroutines.launch
+
+private const val ADD_RECORD_CODE = 1
 
 class EventsFragment : Fragment() {
 
@@ -25,26 +30,25 @@ class EventsFragment : Fragment() {
         ViewModelProvider(this).get(EventsViewModel::class.java)
     }
 
-    private val records = ArrayList<Record>()
+    private var records = ArrayList<Record>()
     lateinit var adapter: RecordAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view:View? = inflater.inflate(R.layout.events_fragment, container, false)
-
-
-        return view
+        return inflater.inflate(R.layout.events_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initRecords()
 
-        viewModel.records.observe(requireActivity()) {records ->
+        viewModel.records.observe(requireActivity()) {
+            records.clear()
+            records.addAll(it)
             adapter.notifyDataSetChanged()
         }
+        updateRecords()
 
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recycler.layoutManager = layoutManager
@@ -52,30 +56,29 @@ class EventsFragment : Fragment() {
         recycler.adapter = adapter
         swipeRefresh.setOnRefreshListener {
             // 更新数据
-//            initRecords()
-//            adapter.notifyDataSetChanged()
-            Toast.makeText(requireContext(), "刷新数据", Toast.LENGTH_LONG).show()
+            updateRecords()
+//            Toast.makeText(requireContext(), "刷新数据", Toast.LENGTH_LONG).show()
             swipeRefresh.isRefreshing = false
         }
         floatButton.setOnClickListener {
             // 新建Record
-            RecordDetailActivity.start(requireContext(), Record("", "", Utils.getDefaultTime()))
+            val intent = Intent(requireContext(), RecordDetailActivity::class.java)
+            intent.putExtra("record", Record(title = "", content = "", time = Utils.getDefaultTime()))
+            startActivityForResult(intent, ADD_RECORD_CODE)
         }
 
     }
 
-    fun initRecords() {
-        records.run {
-            for (i in 1..2) {
-                add(Record("第${i}天", "无事", "2020-01-28 20:30"))
-            }
-            for (i in 3..4) {
-                add(Record("第${i}天", "无事", "2021-01-18 20:30"))
-            }
-            for (i in 5..6) {
-                add(Record("第${i}天", "无事", "2021-01-28 20:30"))
-            }
+    fun updateRecords() = viewModel.getAllRecords()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ADD_RECORD_CODE) {
+            // 更新界面
+            updateRecords()
         }
     }
+
+
 
 }
