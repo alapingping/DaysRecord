@@ -7,16 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.daysrecord.R
 import com.example.daysrecord.Utils
 import com.example.daysrecord.database.entity.Record
-import com.example.daysrecord.logic.repository.Repository
 import kotlinx.android.synthetic.main.events_fragment.*
-import kotlinx.coroutines.launch
 
 private const val ADD_RECORD_CODE = 1
 
@@ -31,7 +27,7 @@ class EventsFragment : Fragment() {
     }
 
     private var records = ArrayList<Record>()
-    lateinit var adapter: RecordAdapter
+    private lateinit var adapter: RecordAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

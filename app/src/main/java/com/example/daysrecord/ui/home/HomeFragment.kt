@@ -1,18 +1,15 @@
 package com.example.daysrecord.ui.home
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,7 +18,6 @@ import com.example.daysrecord.R
 import com.example.daysrecord.open
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.home_fragment.*
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -32,8 +28,8 @@ class HomeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     companion object {
         val TAG = "HOME_FRAGMENT"
         fun newInstance() = HomeFragment()
-        val MALE_TAG_FLAG = 1
-        val FEMALE_TAG_FLAG = 2
+        const val MALE_TAG_FLAG = 1
+        const val FEMALE_TAG_FLAG = 2
     }
 
     private lateinit var viewModel: HomeViewModel
@@ -58,13 +54,12 @@ class HomeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
 
         // 设置背景透明度
         home_background.background.alpha = 100
         // 设置头像
         imageClickListener = View.OnClickListener {
-            // TODO("打开相册选择相片")
+            // 打开相册选择相片
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, it?.tag.toString().toInt())
@@ -74,7 +69,7 @@ class HomeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
         // 设置姓名内容
         nameClickListener = View.OnClickListener {
-            // TODO("输入姓名")
+            // 输入姓名
             val code = it?.tag.toString().toInt()
             context?.let { it -> showNameInputDialog(it, code) }
         }
@@ -85,7 +80,7 @@ class HomeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         // 设置toolbar透明
 //        toolbar.background.alpha  = 0
         days.setOnClickListener {
-            // TODO("设置日期")
+            // 设置日期
             val now: Calendar = Calendar.getInstance(Locale.CHINA)
             val datePickerDialog = DatePickerDialog.newInstance(
                 this,
@@ -93,7 +88,7 @@ class HomeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
             )
-            datePickerDialog.show(requireFragmentManager(), "d")
+            datePickerDialog.show(requireFragmentManager(), "datePicker")
         }
     }
 
@@ -154,7 +149,7 @@ class HomeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        // TODO("Not yet implemented")
+        // 设置日期
         val startDate = LocalDate.of(year, monthOfYear + 1, dayOfMonth)
         val endDate = LocalDate.now()
         startYear = year

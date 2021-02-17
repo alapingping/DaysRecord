@@ -8,10 +8,13 @@ import com.example.daysrecord.database.entity.Record
 interface RecordDao {
 
     @Insert
-    fun insertRecord(record: Record): Long
+    fun insertRecord(record: Record)
 
     @Query("select * from record")
     fun getAllRecords(): LiveData<List<Record>>
+
+    @Query("select * from record where title = :title")
+    fun getAllRecordsByTitle(title: String): LiveData<List<Record>>
 
     @Delete
     fun deleteRecord(record: Record)

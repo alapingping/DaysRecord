@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -13,6 +14,7 @@ import androidx.core.view.GravityCompat
 import com.example.daysrecord.logic.repository.Repository
 import com.example.daysrecord.ui.events.EventsFragment
 import com.example.daysrecord.ui.home.HomeFragment
+import com.example.daysrecord.ui.message.MessageFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -35,22 +37,30 @@ class MainActivity : BaseActivity() {
         toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+        toolbar.inflateMenu(R.menu.menu)
 
         navigation_view.setNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.option_home -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, HomeFragment.newInstance()).commit()
+                    toolbar.menu.findItem(R.id.option_search).isVisible = false
                 }
                 R.id.option_event -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, EventsFragment.newInstance()).commit()
+                    toolbar.menu.findItem(R.id.option_search).isVisible = true
                 }
                 R.id.option_message -> {
-                    "message".showToast()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, MessageFragment.newInstance()).commit()
+                    toolbar.menu.findItem(R.id.option_search).isVisible = false
                 }
                 R.id.option_setting -> {
+                    // TODO: 打开设置界面
+
                     "setting".showToast()
+                    toolbar.menu.findItem(R.id.option_search).isVisible = false
                 }
             }
             drawerLayout.closeDrawers()
@@ -60,6 +70,11 @@ class MainActivity : BaseActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.option_search) {
+            // TODO: 打开搜索界面
+
+            return true
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -77,4 +92,9 @@ class MainActivity : BaseActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        menu?.findItem(R.id.option_search)?.isVisible = false
+        return true
+    }
 }

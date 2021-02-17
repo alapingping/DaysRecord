@@ -1,5 +1,7 @@
 package com.example.daysrecord
 
+import com.example.daysrecord.logic.model.Message
+import com.example.daysrecord.logic.model.Result
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -35,6 +37,14 @@ class Utils {
             val date = LocalDate.now()
             val time = "${LocalTime.now().hour}:${LocalTime.now().minute}"
             return "$date $time"
+        }
+
+        fun <T> Result<T>.dataConvert(): List<T>? {
+            if (code == 200) {
+                return data
+            } else {
+                return null
+            }
         }
 
     }
