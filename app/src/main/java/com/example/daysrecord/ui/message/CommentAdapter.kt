@@ -1,6 +1,12 @@
 package com.example.daysrecord.ui.message
 
 import android.content.Context
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +14,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.daysrecord.R
+import com.example.daysrecord.Utils.Companion.showToast
 import com.example.daysrecord.logic.model.Comment
 import kotlinx.android.synthetic.main.item_comment.view.*
 
@@ -15,9 +22,7 @@ class CommentAdapter(val context: Context, val data: List<Comment>) :
     ListAdapter<Comment, CommentAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val commentAuthor = itemView.comment_author
-        val commentContent = itemView.comment_content
-        val commentTime = itemView.comment_time
+        val commentText = itemView.comment_text
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,9 +32,21 @@ class CommentAdapter(val context: Context, val data: List<Comment>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.commentAuthor.text = currentList[position].author
-        holder.commentContent.text = currentList[position].content
-        holder.commentTime.text = currentList[position].time
+        val builder: SpannableStringBuilder = SpannableStringBuilder()
+        val author: SpannableString = SpannableString(currentList[position].author)
+        val content: SpannableString = SpannableString(currentList[position].content)
+        builder.append(author)
+        builder.append(": ")
+        builder.append(content)
+        builder.setSpan(ForegroundColorSpan(context.resources.getColor(R.color.name)), 0, author.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+//        builder.setSpan(object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                "author is clicked".showToast()
+//            }
+//
+//        }, 0, author.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        builder.setSpan(ForegroundColorSpan(Color.BLACK), author.length + 2, builder.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        holder.commentText.text = builder
     }
 
     override fun getItemCount(): Int {

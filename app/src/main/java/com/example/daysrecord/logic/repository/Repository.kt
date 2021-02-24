@@ -49,4 +49,8 @@ object Repository {
         return Client.create(Service::class.java).getAllMessages().dataConvert()
     }
 
+    suspend fun addNewMessage(message: Message): Int {
+        return Client.create(Service::class.java).addMessages(message).code
+    }
+
 }

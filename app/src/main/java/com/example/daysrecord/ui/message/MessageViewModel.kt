@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 class MessageViewModel : ViewModel()  {
 
     var list = MutableLiveData<List<Message>>()
+    var code = MutableLiveData<Int>()
 
     fun getMessagesFromRemote() = viewModelScope.launch {
         val data = withContext(Dispatchers.IO) {
@@ -20,6 +21,13 @@ class MessageViewModel : ViewModel()  {
         if (data != null) {
             list.value = data
         }
+    }
+
+    fun addNewMessage(message: Message) = viewModelScope.launch {
+        val resultCode = withContext(Dispatchers.IO) {
+            Repository.addNewMessage(message)
+        }
+        code.value = resultCode
     }
 
 }

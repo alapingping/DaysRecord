@@ -2,24 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/comment_author"
+        android:id="@+id/comment_text"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="hello world"/>
 
-    <TextView
-        android:id="@+id/comment_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hello world"/>
-
-    <TextView
-        android:id="@+id/comment_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hello world"/>
 
 </LinearLayout>

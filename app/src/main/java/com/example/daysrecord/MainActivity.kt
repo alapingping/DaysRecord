@@ -1,20 +1,16 @@
 package com.example.daysrecord
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import com.example.daysrecord.logic.repository.Repository
 import com.example.daysrecord.ui.events.EventsFragment
 import com.example.daysrecord.ui.home.HomeFragment
 import com.example.daysrecord.ui.message.MessageFragment
+import com.example.daysrecord.Utils.Companion.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -45,16 +41,19 @@ class MainActivity : BaseActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, HomeFragment.newInstance()).commit()
                     toolbar.menu.findItem(R.id.option_search).isVisible = false
+                    toolbar.menu.findItem(R.id.option_new_message).isVisible = false
                 }
                 R.id.option_event -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, EventsFragment.newInstance()).commit()
                     toolbar.menu.findItem(R.id.option_search).isVisible = true
+                    toolbar.menu.findItem(R.id.option_new_message).isVisible = false
                 }
                 R.id.option_message -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, MessageFragment.newInstance()).commit()
                     toolbar.menu.findItem(R.id.option_search).isVisible = false
+                    toolbar.menu.findItem(R.id.option_new_message).isVisible = true
                 }
                 R.id.option_setting -> {
                     // TODO: 打开设置界面
@@ -72,7 +71,15 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.option_search) {
             // TODO: 打开搜索界面
-
+            return true
+        }
+        if (item.itemId == R.id.option_new_message) {
+            // TODO: 打开新建留言界面
+            for (fragment in supportFragmentManager.fragments) {
+                if (fragment is MessageFragment) {
+                    fragment.startNewMessageActivity()
+                }
+            }
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -94,7 +101,10 @@ class MainActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
-        menu?.findItem(R.id.option_search)?.isVisible = false
+        menu?.apply {
+            findItem(R.id.option_search).isVisible = false
+            findItem(R.id.option_new_message).isVisible = false
+        }
         return true
     }
 }

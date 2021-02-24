@@ -7,4 +7,9 @@
 
     <color name="unEnabled">#999999</color>
     <color name="enabled">#EEEEEE</color>
+
+
+    <color name="name"> #59687D</color>
+
+
 </resources>

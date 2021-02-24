@@ -11,12 +11,3 @@ inline fun <reified T> startActivity(context: Context, block: Intent.() -> Unit)
     context.startActivity(intent)
 }
 
-fun String.showToast(time: Int = Toast.LENGTH_LONG) {
-    Toast.makeText(DayRecordApplication.context, this, time).show()
-}
-
-fun SharedPreferences.open(block: SharedPreferences.Editor.() -> Unit) {
-    val editor = edit()
-    editor.block()
-    editor.apply()
-}

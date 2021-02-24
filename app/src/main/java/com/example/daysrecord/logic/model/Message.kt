@@ -1,6 +1,12 @@
 package com.example.daysrecord.logic.model
 
-data class Message(val id: Int, val author: String, val content: String, val time: String, val comments: List<Comment>) {
+data class Message(
+    @Transient
+    val id: Int = 0,
+    val author: String,
+    val content: String,
+    val time: String,
+    val comments: List<Comment>? = null) {
     override fun equals(other: Any?): Boolean {
         if (other is Message) {
             return this.author == other.author &&
@@ -9,5 +15,14 @@ data class Message(val id: Int, val author: String, val content: String, val tim
                     this.comments == other.comments
         }
         return false
+    }
+
+    override fun hashCode(): Int {
+        var result = id
+        result = 31 * result + author.hashCode()
+        result = 31 * result + content.hashCode()
+        result = 31 * result + time.hashCode()
+        result = 31 * result + comments.hashCode()
+        return result
     }
 }

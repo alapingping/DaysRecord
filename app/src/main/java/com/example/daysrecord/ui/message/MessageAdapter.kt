@@ -1,6 +1,7 @@
 package com.example.daysrecord.ui.message
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.example.daysrecord.logic.model.Comment
 import com.example.daysrecord.logic.model.Message
 import kotlinx.android.synthetic.main.item_message.view.*
 
-class MessageAdapter(val context: Context, val data: List<Message>) :
+class MessageAdapter(val context: Context, val data: List<Message?>) :
     ListAdapter<Message ,MessageAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,6 +37,7 @@ class MessageAdapter(val context: Context, val data: List<Message>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.messageAuthor.text = currentList[position].author
         holder.messageContent.text = currentList[position].content
+        holder.messageContent.setTextColor(Color.BLACK)
         holder.messageTime.text = currentList[position].time
         (holder.commentRecyclerView.adapter as ListAdapter<Comment, CommentAdapter.ViewHolder>).submitList(currentList[position].comments)
     }

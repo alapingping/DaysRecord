@@ -11,7 +11,7 @@ import com.example.daysrecord.R
 import com.example.daysrecord.Utils.Companion.getTransformedTime
 import com.example.daysrecord.database.entity.Record
 import com.google.android.material.card.MaterialCardView
-import kotlinx.android.synthetic.main.item.view.*
+import kotlinx.android.synthetic.main.item_record.view.*
 
 class RecordAdapter(val context: Context, val data: List<Record>) :
         RecyclerView.Adapter<RecordAdapter.ViewHolder>() {
@@ -25,7 +25,7 @@ class RecordAdapter(val context: Context, val data: List<Record>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_record, parent, false)
         val holder = ViewHolder(view)
         holder.recordLayout.setOnClickListener {
             RecordDetailActivity.start(parent.context, data[holder.adapterPosition])

@@ -15,13 +15,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.daysrecord.R
-import com.example.daysrecord.open
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.home_fragment.*
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import java.util.*
+
+import com.example.daysrecord.Utils.Companion.open
 
 class HomeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 

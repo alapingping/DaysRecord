@@ -1,5 +1,12 @@
 package com.example.daysrecord
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.daysrecord.logic.model.Message
 import com.example.daysrecord.logic.model.Result
 import java.time.LocalDate
@@ -45,6 +52,32 @@ class Utils {
             } else {
                 return null
             }
+        }
+
+        fun String.showToast(time: Int = Toast.LENGTH_LONG) {
+            Toast.makeText(DayRecordApplication.context, this, time).show()
+        }
+
+        fun SharedPreferences.open(block: SharedPreferences.Editor.() -> Unit) {
+            val editor = edit()
+            editor.block()
+            editor.apply()
+        }
+
+        fun isNetworkAvailable(context: Context): Boolean {
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+            cm?.run {
+                cm.getNetworkCapabilities(cm.activeNetwork)?.run {
+                    return when {
+                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                        else -> false
+                    }
+                }
+            }
+
+            return false;
         }
 
     }
